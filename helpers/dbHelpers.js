@@ -1,8 +1,12 @@
 const db = require('../dbConfig')
 
 async function addBird(bird) {
-  const [id] = await db('birds').insert(bird);
-  return findById(id)
+  // PostgreSQL way to insert =>
+  return await db('birds').insert(bird, ['id', 'common_name', 'description'])
+
+  // SQLite way to insert =>
+  // const [id] = await db('birds').insert(bird);
+  // return findById(id)
 } 
 
 function find() {
@@ -31,10 +35,16 @@ function findObservationById(id) {
 }
 
 async function addObservation(observation, bird_id) {
-  const [id] = await db('birdwatchers')
+  // PostgreSQL way to insert =>
+  return await db('birdwatchers')
     .where({ bird_id })
-    .insert(observation);
-  return findObservationById(id);
+    .insert(observation, ['id', 'watcher', 'observation'])
+
+  // SQLite way to insert =>
+  // const [id] = await db('birdwatchers')
+  //   .where({ bird_id })
+  //   .insert(observation);
+  // return findObservationById(id);
 }
 
 function findBirdObservations(bird_id) {
@@ -54,9 +64,7 @@ function findBirdObservations(bird_id) {
 function removeObservation(id) {
   return db('birdwatchers').where({ id }).del()
 }
-// function removeObservation(id) {
-//   return db('birdwatchers').where(birdwarchers.id === id).del()
-// }
+
 module.exports = {
   addBird, 
   find,
