@@ -54,7 +54,7 @@ function findBirdObservations(bird_id) {
       'birds.id as BirdID',
       'birds.common_name as BirdName',
       'birds.scientific_name as ScientificName',
-      'birdwatchers.id as WatcherID',
+      'birdwatchers.id as ObservationID',
       'birdwatchers.watcher as Watcher',
       'birdwatchers.observation as Observation'
     )
@@ -63,6 +63,18 @@ function findBirdObservations(bird_id) {
 
 function removeObservation(id) {
   return db('birdwatchers').where({ id }).del()
+}
+
+async function addUser(user) {
+  return await db('users').insert(user, ['id', 'username'])
+}
+
+function findAllUsers() {
+  return db('users')
+}
+
+function findUserByUsername(username) {
+  return db('users').where({ username }).first()
 }
 
 module.exports = {
@@ -74,5 +86,8 @@ module.exports = {
   addObservation,
   findObservationById,
   findBirdObservations,
-  removeObservation
+  removeObservation,
+  addUser,
+  findAllUsers,
+  findUserByUsername
 }

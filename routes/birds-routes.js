@@ -1,11 +1,11 @@
 const express = require('express')
-const Birds = require('../helpers/dbHelpers') // Brings Helper Functions()
+const dbHelper = require('../helpers/dbHelpers') // Brings Helper Functions()
 
 const router = express.Router()
 
 // /api/birds/
 router.get('/', (req, res) => {
-  Birds.find()
+  dbHelper.find()
     .then(birds => {
       res.status(200).json(birds)
     })
@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  Birds.addBird(req.body)
+  dbHelper.addBird(req.body)
     .then(bird => {
       res.status(200).json(bird)
     })
@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  Birds.findById(id)
+  dbHelper.findById(id)
     .then(bird => {
       if (bird) {
         res.status(200).json(bird)
@@ -41,7 +41,7 @@ router.get('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  Birds.remove(id)
+  dbHelper.remove(id)
     .then( count => {
       if (count > 0) {
         res.status(200).json({ message: 'Record deleted!' })
@@ -57,7 +57,7 @@ router.delete('/:id', (req, res) => {
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
-  Birds.update(id, changes)
+  dbHelper.update(id, changes)
     .then(bird => {
       if (bird) {
         res.status(200).json(bird)
@@ -70,6 +70,7 @@ router.patch('/:id', (req, res) => {
     })
 })
 
+// Add an observation.
 router.post('/:id/observations', (req, res) => {
   const { id } = req.params;
   const birdwatch = req.body;
@@ -78,7 +79,7 @@ router.post('/:id/observations', (req, res) => {
     birdwatch['bird_id'] = parseInt(id, 10)
   }
 
-  Birds.findById(id)
+  dbHelper.findById(id)
     .then(bird => {
       if (!bird) {
         res.status(404).json({ message: 'Invalid ID' })
@@ -89,7 +90,7 @@ router.post('/:id/observations', (req, res) => {
         res.status(400).json({ message: `Must provide "watcher" and "observation" values` })
       }
 
-      Birds.addObservation(birdwatch, id)
+      dbHelper.addObservation(birdwatch, id)
         .then(observation => {
           if(observation) {
             res.status(200).json(observation)
@@ -106,7 +107,7 @@ router.post('/:id/observations', (req, res) => {
 
 router.get('/:id/observations', (req, res) => {
   const { id } = req.params;
-  Birds.findBirdObservations(id)
+  dbHelper.findBirdObservations(id)
     .then(bird => {
       if (bird.length === 0) {
         res.status(404).json({ message: 'Bird with no observations. Check ID' })

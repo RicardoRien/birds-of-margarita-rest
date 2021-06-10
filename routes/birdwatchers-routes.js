@@ -1,12 +1,12 @@
 const express = require('express')
-const Birds = require('../helpers/dbHelpers') // Brings Helper Functions()
+const dbHelper = require('../helpers/dbHelpers') // Brings Helper Functions()
 
 const router = express.Router()
 
 // api/observations/
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  Birds.removeObservation(id)
+  dbHelper.removeObservation(id)
     .then( count => {
       if (count > 0) {
         res.status(200).json({ message: `Observation with ID ${id} deleted!` })
