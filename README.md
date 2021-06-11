@@ -1,5 +1,3 @@
-# Work in progress... fixing deployment issues.
-
 # birds-of-margarita-rest
 
 This project was created using:

@@ -2,10 +2,10 @@
   "name": "birds_of_margarita_api",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "develop": "nodemon src/index.js"
+    "start": "node index.js",
+    "develop": "nodemon index.js"
   },
   "keywords": ["API", "Web Service"],
   "author": "Ricardo Aguilar",
