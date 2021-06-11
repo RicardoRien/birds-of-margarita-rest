@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const helmet = require('helmet')
@@ -18,7 +19,7 @@ const sessionConfig = {
   secret: process.env.SECRET, 
   cookie: {
     maxAge: 1000 * 60 * 60, // Time span cookie [milis,hour,second] (1 hour)
-    secure: false, // For production set to true for https only access
+    secure: true, // For production set to true for https only access
     httpOnly: true // True means no acces from JavaScript
   },
   resave: false,
